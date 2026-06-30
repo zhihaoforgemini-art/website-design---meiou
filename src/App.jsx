@@ -1,0 +1,158 @@
+import { useMemo, useState } from "react";
+import fundingNetwork from "./assets/funding-network.png";
+import inventoryPledge from "./assets/inventory-pledge.png";
+import receivablesFlow from "./assets/receivables-flow.png";
+import riskEngine from "./assets/risk-engine.png";
+
+const commonAdvantages = [
+  ["1000万", "单笔授信最高额度"],
+  ["全国办理", "一点对全国运营"],
+  ["全流程线上", "申请、核验、审批、放款"],
+  ["到期还本付息", "规则清晰，便于规划"],
+];
+
+const products = [
+  {
+    name: "货押贷",
+    tag: "盘活在库 + 在途货物",
+    headline: "把沉睡库存变成流动资金",
+    limit: "最高 1000 万元",
+    period: "最长 6 个月",
+    bullets: [
+      "以美鸥监管的在途货物、在仓库存质押融资",
+      "出口满 1 年及以上，货值质押率最高 80%",
+      "出口 3 个月至 1 年，货值质押率最高 60%",
+      "受托支付结清仓储物流费用，剩余资金自主支配",
+      "最低货值水位线闭环监管，货权管控更稳健",
+    ],
+  },
+  {
+    name: "应收贷",
+    tag: "盘活平台店铺回款",
+    headline: "提前释放平台账期里的现金流",
+    limit: "最高 1000 万元",
+    period: "最长 9 个月",
+    bullets: [
+      "依托亚马逊、Temu、TikTok Shop 店铺真实回款授信",
+      "授信额度按近 3 个月月均平台回款与动态系数核定",
+      "放款采用自主支付，备货、广告、新品铺货都可使用",
+      "不用押货，不用额外不动产抵押",
+      "凭真实经营流水与应收数据审批，更适合轻资产卖家",
+    ],
+  },
+];
+
+const platformTags = ["Amazon", "Temu", "TikTok Shop", "美鸥仓储", "跨境物流", "建行云贷"];
+
+const templates = [
+  {
+    id: "command",
+    nav: "云贷方案",
+    name: "云贷资金指挥舱",
+    description: "最接近之前 Dowsure 的科技感：首页用实时数据面板建立信任，适合作为正式官网首页方向。",
+    badge: "Meiou × CCB Cloud Loan",
+    title: "美鸥平台云贷，跨境卖家专属资金解决方案",
+    subtitle: "依托美鸥跨境物流、仓储、店铺经营全量真实数据做风控，联合建行为跨境小微商家提供货押贷与应收贷融资支持。",
+    cta: "查看两大产品",
+    altCta: "预约融资顾问",
+    visual: "dashboard",
+  },
+];
+
+const flowSteps = [
+  ["01", "经营数据接入", "物流、仓储、店铺销售、回款等多维数据加固直连。"],
+  ["02", "美鸥风控建模", "根据货值、账期、评级、报关额与经营稳定性形成授信画像。"],
+  ["03", "建行线上审批", "授信申请、数据核验、审批放款全流程线上操作。"],
+  ["04", "贷后闭环管理", "货权水位、平台回款、资金用途与还款节奏持续跟踪。"],
+];
+
+const proofBadges = ["建行联合方案", "美鸥数据风控", "最高 1000 万", "线上审批放款"];
+
+const financingScenes = [
+  {
+    id: "inventory",
+    kicker: "scene 01 / inventory pledge",
+    title: "货押贷：把在库与在途货物变成可授信资产",
+    body: "围绕美鸥监管仓、跨境在途货物与最低货值水位线，建立货权、货值、仓储物流费用的闭环监管，让库存不再只是占用现金流的沉默资产。",
+    image: inventoryPledge,
+    imageAlt: "库存质押仓储融资概念图",
+    metrics: [["80%", "满 1 年出口货值质押率最高"], ["60%", "3 个月至 1 年出口货值质押率最高"], ["6 个月", "贷款期限最长"]],
+    points: ["在途货物与在仓库存均可纳入风控", "受托支付结清仓储物流费用", "最低货值水位线持续监控"],
+  },
+  {
+    id: "receivables",
+    kicker: "scene 02 / receivables finance",
+    title: "应收贷：提前释放平台账期里的经营现金流",
+    body: "依托平台店铺真实回款、近 3 个月月均流水与动态系数核定授信额度，让跨境卖家在备货、广告、新品铺货和多店扩张时有更确定的资金安排。",
+    image: receivablesFlow,
+    imageAlt: "平台应收回款融资概念图",
+    metrics: [["9 个月", "贷款期限最长"], ["1000 万", "单笔授信最高"], ["线上化", "申请审批放款"]],
+    points: ["不用押货，不用额外不动产抵押", "按真实平台回款能力核定额度", "自主支付覆盖多类经营用途"],
+  },
+  {
+    id: "risk",
+    kicker: "scene 03 / risk engine",
+    title: "数据风控：把物流、仓储、店铺与银行审批串成一条线",
+    body: "美鸥沉淀跨境经营数据，建行承接线上审批链路，从申请、核验、放款到贷后管理形成连续监测，减少传统抵押不足带来的融资摩擦。",
+    image: riskEngine,
+    imageAlt: "贷后监控与风控数据引擎概念图",
+    metrics: [["A+", "经营画像动态评级"], ["LIVE", "水位与回款持续监测"], ["全国", "跨区域经营统一办理"]],
+    points: ["物流、仓储、店铺销售、回款多源交叉验证", "授信画像与贷后监控动态更新", "异常水位和回款波动及时预警"],
+  },
+];
+
+const colorDirections = [
+  ["clear-blue", "清透金融蓝", "更明亮、可信、银行科技感强", "linear-gradient(145deg, #f5fbff 0%, #e8f4ff 48%, #dff8f3 100%)", "#0f2542", "#506983", "#1e8fff", "#20c6a8", "linear-gradient(100deg, #1e8fff, #20c6a8)"],
+  ["mint-coral", "薄荷青橙", "更年轻、跨境电商感更轻快", "linear-gradient(145deg, #f3fff9 0%, #e8fbf4 48%, #fff2e8 100%)", "#12332f", "#5b706b", "#00a98f", "#ff8a5b", "linear-gradient(100deg, #00a98f, #ff9b62)"],
+  ["soft-slate", "云白深青", "高级、干净、适合正式官网", "linear-gradient(145deg, #f7f8f6 0%, #eef4f1 52%, #e3eee9 100%)", "#162923", "#64746d", "#0d7667", "#c89b4f", "linear-gradient(100deg, #0d7667, #d7ad62)"],
+  ["rose-gold", "曜石玫瑰金", "保留高级暗色，但更柔和不压抑", "linear-gradient(145deg, #151617 0%, #1f2628 50%, #2b1f24 100%)", "#fff8ef", "#d7c9bd", "#f2b37d", "#74d7ca", "linear-gradient(100deg, #f2b37d, #74d7ca)"],
+  ["ember-orange", "曜石暖橙", "在暗色高级感里加入更现代的活力橙", "linear-gradient(145deg, #101418 0%, #172126 44%, #2a1c13 100%)", "#fff7eb", "#d9c8b5", "#ff8a35", "#4ed6c7", "linear-gradient(100deg, #ff8a35, #4ed6c7)"],
+  ["amber-tech", "琥珀科技橙", "更像金融科技产品，橙色有温度但不土", "linear-gradient(145deg, #11191b 0%, #10282a 48%, #332312 100%)", "#fff9ef", "#c9d0c8", "#ffb13b", "#32d0b2", "linear-gradient(100deg, #ffb13b, #32d0b2)"],
+  ["coral-graphite", "珊瑚石墨", "年轻、利落，适合跨境电商客户群", "linear-gradient(145deg, #f8f3ee 0%, #f0f6f3 46%, #ffe1cf 100%)", "#202a2c", "#65716f", "#ff7448", "#0f9f8b", "linear-gradient(100deg, #ff7448, #0f9f8b)"],
+  ["sunset-credit", "日落信贷橙", "更有营销转化感，适合融资咨询落地页", "linear-gradient(145deg, #fff8ef 0%, #f7f1e9 45%, #ffd9b8 100%)", "#2b241f", "#716359", "#ff7a1a", "#196f63", "linear-gradient(100deg, #ff7a1a, #196f63)"],
+].map(([id, name, mood, bg, ink, muted, accent, second, button]) => ({ id, name, mood, bg, ink, muted, accent, second, button }));
+
+function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  return (
+    <header className="nav">
+      <a className="brand meiou" href="#top" aria-label="Meiou Cloud Loan home"><span className="brand-mark">M</span><span>美鸥云贷</span></a>
+      <button className="menu-button" type="button" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><span /><span /><span /></button>
+      <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Template navigation">
+        <a className="active" href="#top">首页</a><a href="#ecosystem">生态数据</a><a href="#colors">配色试样</a><a href="#scenes">融资场景</a><a href="#products">产品卖点</a><a href="#contact">立即咨询</a>
+      </nav>
+      <div className="nav-actions"><a className="ghost-button" href="#products">产品卖点</a><a className="hot-button small" href="#contact">立即咨询</a></div>
+    </header>
+  );
+}
+
+function HeroVisual() {
+  return (
+    <aside className="command-center cloud-loan" aria-label="Meiou cloud loan command center">
+      <div className="panel-header"><span>跨境资金云图</span><strong>LIVE</strong><button type="button">全国视图</button></div>
+      <div className="map-stage"><img src={fundingNetwork} alt="Cross-border funding network" /><div className="pulse-node primary" /><div className="pulse-node secondary" /><div className="pulse-node tertiary" /><div className="marketplace-tags left"><span>Amazon</span><span>Temu</span><span>TikTok Shop</span></div><div className="marketplace-tags right"><span>货押贷</span><span>应收贷</span><span>建行云贷</span></div></div>
+      <div className="signal-cards">{[["授信额度", "1000 万", "单笔最高"], ["货值质押率", "80%", "满 1 年最高"], ["应收周期", "9 个月", "最长贷款期限"], ["办理方式", "线上化", "审批放款高效"]].map(([label, value, hint], index) => <button key={label} className={index === 0 ? "signal-card active" : "signal-card"} type="button"><span>{label}</span><strong>{value}</strong><small>{hint}</small></button>)}</div>
+    </aside>
+  );
+}
+
+function ColorDirectionLab() {
+  return <section id="colors" className="color-lab" aria-label="Color direction previews"><div className="section-heading"><p className="eyebrow">color direction lab</p><h2>先做一小部分配色试样，选舒服的方向再全站替换</h2><p className="section-copy">金墨方向偏沉，我建议优先看前三个：更清透、更轻快、更正式。第四个保留暗色高级感，但把压迫感降下来。</p></div><div className="color-options">{colorDirections.map((direction) => <article key={direction.id} className={`color-card color-${direction.id}`} style={{ "--preview-bg": direction.bg, "--preview-ink": direction.ink, "--preview-muted": direction.muted, "--preview-accent": direction.accent, "--preview-second": direction.second, "--preview-button": direction.button }}><div className="color-preview"><div className="preview-copy"><span>{direction.name}</span><h3>美鸥平台云贷</h3><p>{direction.mood}</p><button type="button">查看产品方案</button></div><div className="preview-panel"><div><strong>1000 万</strong><span>最高授信</span></div><div><strong>80%</strong><span>货值质押率</span></div></div></div><div className="color-meta"><strong>{direction.name}</strong><p>{direction.mood}</p><div className="swatches" aria-label={`${direction.name} swatches`}><i style={{ background: direction.ink }} /><i style={{ background: direction.accent }} /><i style={{ background: direction.second }} /></div></div></article>)}</div></section>;
+}
+
+function ProofRibbon() { return <section className="proof-ribbon" aria-label="Cloud loan proof points"><div className="ribbon-track">{[...proofBadges, ...proofBadges].map((item, index) => <span key={`${item}-${index}`}>{item}</span>)}</div></section>; }
+
+function ProductPanel() {
+  const [active, setActive] = useState(products[0].name);
+  const selected = useMemo(() => products.find((product) => product.name === active) ?? products[0], [active]);
+  return <section id="products" className="products cloud-products"><div className="section-heading"><p className="eyebrow">product matrix</p><h2>两类融资产品，覆盖跨境卖家核心资金场景</h2><p className="section-copy">货押贷解决备货与库存占资，应收贷解决平台账期与轻资产授信。</p></div><div className="product-tabs" role="tablist" aria-label="Loan products">{products.map((product) => <button key={product.name} className={active === product.name ? "active" : ""} type="button" role="tab" aria-selected={active === product.name} onClick={() => setActive(product.name)}>{product.name}</button>)}</div><div className="loan-detail"><div className="loan-detail-main"><span>{selected.tag}</span><h3>{selected.headline}</h3><div className="loan-kpis"><strong>{selected.limit}</strong><strong>{selected.period}</strong></div></div><ul>{selected.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul></div></section>;
+}
+
+function FinancingScenes() {
+  return <section id="scenes" className="financing-scenes" aria-label="Financing scenes"><div className="section-heading"><p className="eyebrow">three financing scenes</p><h2>三张核心概念图，把云贷产品讲成清晰的独立模块</h2><p className="section-copy">不再把信息挤在一块：货押贷、应收贷、数据风控分别独立展开，每个模块都对应一个真实经营场景。</p></div><div className="scene-stack">{financingScenes.map((scene, index) => <article key={scene.id} className={index % 2 === 1 ? "scene-panel reverse" : "scene-panel"}><div className="scene-image"><img src={scene.image} alt={scene.imageAlt} /><div className="scene-badge"><span>{scene.kicker}</span><strong>美鸥云贷</strong></div></div><div className="scene-copy"><p className="eyebrow">{scene.kicker}</p><h3>{scene.title}</h3><p>{scene.body}</p><div className="scene-metrics">{scene.metrics.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div><ul>{scene.points.map((point) => <li key={point}>{point}</li>)}</ul></div></article>)}</div></section>;
+}
+
+export function App() {
+  const template = templates[0];
+  return <main className="site-shell template-command final-template"><div className="ambient-layer" aria-hidden="true"><span /><span /><span /></div><Header /><section id="top" className="hero cloud-hero"><div className="hero-copy"><div className="template-status"><span>{template.nav}</span><strong>{template.name}</strong></div><div className="ai-pill"><span>{template.badge}</span><b>跨境卖家专属资金解决方案</b></div><h1>{template.title.split("，")[0]}<span>{template.title.split("，").slice(1).join("，") || "专属融资护航跨境经营"}</span></h1><p className="hero-text">{template.subtitle}</p><div className="feature-strip" aria-label="Core advantages"><span>真实数据风控</span><span>最高 1000 万</span><span>全国一体化办理</span><span>全流程线上化</span></div><div className="hero-actions"><a className="hot-button" href="#products">{template.cta}</a><a className="outline-button" href="#contact">{template.altCta}</a></div><dl className="hero-metrics">{commonAdvantages.map(([value, label]) => <div key={label}><dt>{value}</dt><dd>{label}</dd></div>)}</dl></div><HeroVisual /></section><ProofRibbon /><section id="ecosystem" className="partner-rail cloud-rail" aria-label="Cloud loan ecosystem"><p>覆盖跨境卖家真实经营链路</p>{platformTags.map((tag) => <button key={tag} type="button" className="partner-logo"><strong>{tag}</strong><span>data source</span></button>)}</section><ColorDirectionLab /><FinancingScenes /><section className="workflow cloud-workflow"><div><p className="eyebrow">why it works</p><h2>从经营数据到银行授信，一套链路跑通融资闭环</h2><p className="section-copy">依托美鸥跨境物流、仓储与店铺经营数据，解决轻资产、缺传统抵押物、备货垫资和账期占用现金流的融资难题。</p></div><div className="flow-grid">{flowSteps.map(([step, title, body]) => <article key={step} className="flow-card"><span>{step}</span><h3>{title}</h3><p>{body}</p></article>)}</div></section><ProductPanel /><section id="contact" className="footer-cta cloud-cta"><div><p className="eyebrow">next step</p><h2>以云贷资金指挥舱为正式方向，继续深化成完整官网。</h2><p className="section-copy">后续可以继续补官方品牌资产、咨询表单、更多银行背书、客户案例和移动端转化路径。</p></div><a className="hot-button" href="#top">回到顶部查看方案</a></section></main>;
+}
